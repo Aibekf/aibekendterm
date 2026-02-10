@@ -24,16 +24,21 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorResponse create(AuthorCreateRequest req) {
         String name = req.getName().trim();
+
         if (authorRepo.existsByNameIgnoreCase(name)) {
             throw new DuplicateResourceException("Author already exists: " + name);
         }
+
         Author saved = authorRepo.save(new Author(name));
         return AuthorMapper.toResponse(saved);
     }
 
     @Override
     public List<AuthorResponse> getAll() {
-        return authorRepo.findAll().stream().map(AuthorMapper::toResponse).toList();
+        return authorRepo.findAll()
+                .stream()
+                .map(AuthorMapper::toResponse)
+                .toList();
     }
 
     @Override
@@ -41,5 +46,31 @@ public class AuthorServiceImpl implements AuthorService {
         Author a = authorRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Author not found: " + id));
         return AuthorMapper.toResponse(a);
+    }
+
+    @Override
+    public AuthorResponse update(Long id, AuthorCreateRequest req) {
+        Author existing = authorRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found: " + id));
+
+        String newName = req.getName().trim();
+
+        if (!existing.getName().equalsIgnoreCase(newName)
+                && authorRepo.existsByNameIgnoreCase(newName)) {
+            throw new DuplicateResourceException("Author already exists: " + newName);
+        }
+
+        existing.setName(newName);
+
+        Author saved = authorRepo.save(existing);
+        return AuthorMapper.toResponse(saved);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Author existing = authorRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found: " + id));
+
+        authorRepo.delete(existing);
     }
 }
