@@ -26,66 +26,23 @@ The goal of the project is to demonstrate:
 
 ---
 
-## 🏗 Project Structure
+## Project Structure
+```text
 src/
---
 └── main/
---
-├── java/
---
-│ └── app/
---
-│ ├── controller/
---
-│ │ ├── AuthorController.java
---
-│ │ └── BookController.java
---
-│ ├── service/
---
-│ │ ├── AuthorService.java
---
-│ │ └── BookService.java
---
-│ ├── repository/
---
-│ │ ├── AuthorRepository.java
---
-│ │ └── BookRepository.java
---
-│ ├── model/
---
-│ │ ├── Author.java
---
-│ │ ├── Book.java
---
-│ │ ├── EBook.java
---
-│ │ └── PrintedBook.java
---
-│ ├── patterns/
---
-│ │ ├── BookFactory.java
---
-│ │ ├── BookBuilder.java
---
-│ │ └── DatabaseConfigSingleton.java
---
-│ ├── exception/
---
-│ │ ├── ResourceNotFoundException.java
---
-│ │ └── GlobalExceptionHandler.java
---
-│ └── Application.java
---
-└── resources/
---
-└── application.properties
---
+    ├── java/
+    │   └── app/
+    │       ├── controller/
+    │       ├── service/
+    │       ├── repository/
+    │       ├── model/
+    │       ├── patterns/
+    │       ├── exception/
+    │       └── Application.java
+    └── resources/
+        └── application.properties
 
----
-
+```
 ## 🔁 REST API Endpoints
 
 ### Author API
