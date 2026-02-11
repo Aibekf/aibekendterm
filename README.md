@@ -197,48 +197,48 @@ http://localhost:8080
 
 ---
 
-## 📊 UML Diagram
-The UML class diagram is included in the project documentation and demonstrates the relationships between entities, services, repositories, and controllers.
-```plantuml
-@startuml
-skinparam packageStyle rectangle
-skinparam classAttributeIconSize 0
+## UML Class Diagram
 
-package "Controller Layer" {
-  class AuthorController
-  class BookController
+```mermaid
+classDiagram
+
+%% Controller Layer
+class AuthorController
+class BookController
+
+%% Service Layer
+class AuthorService
+class BookService
+
+%% Repository Layer
+class AuthorRepository
+class BookRepository
+
+%% Domain Model
+class Book {
+  <<abstract>>
+}
+class EBook
+class PrintedBook
+class Author
+
+Book <|-- EBook
+Book <|-- PrintedBook
+
+%% Design Patterns
+class BookFactory {
+  <<Factory>>
+}
+class BookBuilder {
+  <<Builder>>
+}
+class DatabaseConfigSingleton {
+  <<Singleton>>
 }
 
-package "Service Layer" {
-  class AuthorService
-  class BookService
-}
-
-package "Repository Layer" {
-  class AuthorRepository
-  class BookRepository
-}
-
-package "Domain Model" {
-  abstract class Book
-  class EBook
-  class PrintedBook
-  class Author
-
-  Book <|-- EBook
-  Book <|-- PrintedBook
-}
-
-package "Design Patterns" {
-  class BookFactory <<Factory>>
-  class BookBuilder <<Builder>>
-  class DatabaseConfigSingleton <<Singleton>>
-}
-
-package "Exception Handling" {
-  class ResourceNotFoundException
-  class GlobalExceptionHandler
-}
+%% Exception Handling
+class ResourceNotFoundException
+class GlobalExceptionHandler
 
 AuthorController --> AuthorService
 BookController --> BookService
@@ -252,7 +252,7 @@ BookService --> BookBuilder
 BookRepository --> DatabaseConfigSingleton
 
 GlobalExceptionHandler --> ResourceNotFoundException
-@enduml
+
 ```
 ---
 
