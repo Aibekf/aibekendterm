@@ -4,7 +4,7 @@ import app.dto.request.BookCreateRequest;
 import app.dto.request.BookUpdateRequest;
 import app.dto.response.BookResponse;
 import app.service.BookService;
-import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +20,9 @@ public class BookController {
     }
 
     @PostMapping
-    public BookResponse create(@Valid @RequestBody BookCreateRequest req) {
-        return bookService.create(req);
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookResponse create(@RequestBody BookCreateRequest request) {
+        return bookService.create(request);
     }
 
     @GetMapping
@@ -35,18 +36,26 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public BookResponse update(@PathVariable Long id, @Valid @RequestBody BookUpdateRequest req) {
-        return bookService.update(id, req);
+    public BookResponse update(@PathVariable Long id,
+                               @RequestBody BookUpdateRequest request) {
+        return bookService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
         bookService.delete(id);
-        return "Deleted book id=" + id;
     }
 
-    @GetMapping("/by-author/{authorId}")
-    public List<BookResponse> byAuthor(@PathVariable Long authorId) {
+    @GetMapping("/author/{authorId}")
+    public List<BookResponse> getByAuthor(@PathVariable Long authorId) {
         return bookService.getByAuthor(authorId);
     }
+
+    @DeleteMapping("/cache")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void clearCache() {
+        bookService.clearCacheManually();
+    }
 }
+
